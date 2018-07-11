@@ -9,9 +9,13 @@ export default new Vuex.Store({
     array: [],
     blancos: 0,
     nulos: 0,
-    habilitados: 0
+    habilitados: 0,
+    tipo: 'Sistema d\'Hondt'
   },
   mutations: {
+    'SET_ARRAY': function (state, newValue) {
+      state.array = newValue
+    },
     'SET_ESCANO': function (state, newValue) {
       state.escano = newValue
     },
@@ -23,9 +27,15 @@ export default new Vuex.Store({
     },
     'SET_HABILITADOS': function (state, newValue) {
       state.habilitados = newValue
+    },
+    'SET_TIPO': function (state, newValue) {
+      state.tipo = newValue
     }
   },
   actions: {
+    setarray (store, newValue) {
+      store.commit('SET_ARRAY', newValue)
+    },
     setescano (store, newValue) {
       store.commit('SET_ESCANO', newValue)
     },
@@ -37,6 +47,9 @@ export default new Vuex.Store({
     },
     sethabilitados (store, newValue) {
       store.commit('SET_HABILITADOS', newValue)
+    },
+    settipo (store, newValue) {
+      store.commit('SET_TIPO', newValue)
     }
   }
 })

@@ -118,8 +118,13 @@ export default {
       }
       return parseInt(this.blancos) + parseInt(this.nulos) + total
     },
-    array: function () {
-      return this.$store.state.array
+    array: {
+      get: function () {
+        return this.$store.state.array
+      },
+      set: function (newValue) {
+        this.$store.dispatch('setarray', newValue)
+      }
     },
     blancos: {
       get: function () {
@@ -156,7 +161,9 @@ export default {
   },
   methods: {
     anadir () {
-      this.array.push({'nombre': this.movimiento, 'votos': this.votos})
+      var nuevo = this.array
+      nuevo.push({'nombre': this.movimiento, 'votos': this.votos})
+      this.array = nuevo
       this.movimiento = ''
       this.votos = 0
     },
