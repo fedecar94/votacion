@@ -52,25 +52,46 @@
         <tr>
           <th scope="col">Agrupacion</th>
           <th scope="col">Votos</th>
-          <th scope="col">Porcentaje</th>
+          <th scope="col">Porcentaje Total</th>
+          <th scope="col">Porcentaje Votantes</th>
           <th scope="col">Acciones</th>
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <th scope="row">No votó</th>
-          <td>{{habilitados}}</td>
-          <td>100%</td>
-          <td>
-            <button type="button" name="anadir" id="anadir" class="btn btn-danger btn-block" disabled>Eliminar</button>
-          </td>
-        </tr>
         <tr v-for="mov in array" v-bind:key="mov.index">
           <th scope="row">{{mov.nombre}}</th>
           <td>{{mov.votos}}</td>
-          <td>100%</td>
+          <td>{{calculaPorcentaje(mov.votos)}} %</td>
+          <td>{{calculaPorcentajeR(mov.votos)}} %</td>
           <td>
-            <button type="button" name="anadir" id="anadir" class="btn btn-danger btn-block">Eliminar</button>
+            <button type="button" name="eliminar" @click="eliminar(mov)" class="btn btn-danger btn-block">Eliminar</button>
+          </td>
+        </tr>
+        <tr>
+          <th scope="row">Votó en blanco</th>
+          <td>{{blancos}}</td>
+          <td>{{calculaPorcentaje(blancos)}} %</td>
+          <td>{{calculaPorcentajeR(blancos)}} %</td>
+          <td>
+            <button type="button" name="eliminar" class="btn btn-secondary btn-block" disabled>Eliminar</button>
+          </td>
+        </tr>
+        <tr>
+          <th scope="row">Votó nulo</th>
+          <td>{{nulos}}</td>
+          <td>{{calculaPorcentaje(nulos)}} %</td>
+          <td>{{calculaPorcentajeR(nulos)}} %</td>
+          <td>
+            <button type="button" name="eliminar" class="btn btn-secondary btn-block" disabled>Eliminar</button>
+          </td>
+        </tr>
+        <tr>
+          <th scope="row">No votó</th>
+          <td>{{habilitados - totalVotantes}}</td>
+          <td>{{calculaPorcentaje(habilitados - totalVotantes)}} %</td>
+          <td>0 %</td>
+          <td>
+            <button type="button" name="eliminar" class="btn btn-secondary btn-block" disabled>Eliminar</button>
           </td>
         </tr>
       </tbody>
@@ -83,13 +104,54 @@ export default {
   name: 'home',
   data: function () {
     return {
-      escano: 0,
-      habilitados: 0,
-      blancos: 0,
-      nulos: 0,
       movimiento: '',
-      votos: 0,
-      array: []
+      votos: 0
+    }
+  },
+  computed: {
+    totalVotantes: function () {
+      var total = parseInt(0)
+      if (this.array > []) {
+        for (var i = 0; i < this.array.length; i++) {
+          total = total + parseInt(this.array[i].votos)
+        }
+      }
+      return parseInt(this.blancos) + parseInt(this.nulos) + total
+    },
+    array: function () {
+      return this.$store.state.array
+    },
+    blancos: {
+      get: function () {
+        return this.$store.state.blancos
+      },
+      set: function (newValue) {
+        this.$store.dispatch('setblancos', newValue)
+      }
+    },
+    nulos: {
+      get: function () {
+        return this.$store.state.nulos
+      },
+      set: function (newValue) {
+        this.$store.dispatch('setnulos', newValue)
+      }
+    },
+    habilitados: {
+      get: function () {
+        return this.$store.state.habilitados
+      },
+      set: function (newValue) {
+        this.$store.dispatch('sethabilitados', newValue)
+      }
+    },
+    escano: {
+      get: function () {
+        return this.$store.state.escano
+      },
+      set: function (newValue) {
+        this.$store.dispatch('setescano', newValue)
+      }
     }
   },
   methods: {
@@ -97,6 +159,23 @@ export default {
       this.array.push({'nombre': this.movimiento, 'votos': this.votos})
       this.movimiento = ''
       this.votos = 0
+    },
+    calculaPorcentaje (votos) {
+      if (this.habilitados === 0 || this.habilitados === '') { return 0 }
+      return Math.round((votos / this.habilitados) * 10000) / 100
+    },
+    calculaPorcentajeR (votos) {
+      if (this.habilitados === 0 || this.habilitados === '') { return 0 }
+      return Math.round((votos / this.totalVotantes) * 10000) / 100
+    },
+    eliminar (mov) {
+      var nuevo = []
+      for (var i = 0; i < this.array.length; i++) {
+        if (this.array[i] !== mov) {
+          nuevo.push(this.array[i])
+        }
+      }
+      this.array = nuevo
     }
   }
 }
