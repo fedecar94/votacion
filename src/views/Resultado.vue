@@ -131,7 +131,7 @@ export default {
         movimientos.push({'nombre': datos[i].nombre, 'cantidad': 0, 'escanos': []})
       }
       if (this.promedio) {
-        for (let j = 0; j < this.escano; j++){
+        for (let j = 0; j < this.escano; j++) {
           mayor = {'index': 0, 'valor': 0}
           for (let i = 0; i < movimientos.length; i++) {
             if (this.tipo === 'Sistema d\'Hondt') {
@@ -206,7 +206,6 @@ export default {
           mayor = {'index': 0, 'valor': 0}
         }
       }
-      
       return {'movimientos': movimientos, 'votos': tabla}
     },
     promedio: function () {
@@ -215,8 +214,6 @@ export default {
     resto: function () {
       return this.tipo === 'Cociente Hare' || this.tipo === 'Cociente Droop' || this.tipo === 'Cociente Imperiali'
     }
-  },
-  methods: {
   }
 }
 </script>
