@@ -10,7 +10,8 @@ export default new Vuex.Store({
     blancos: 0,
     nulos: 0,
     habilitados: 0,
-    tipo: 'Sistema d\'Hondt'
+    tipo: 'Sistema d\'Hondt',
+    movimientos: []
   },
   mutations: {
     'SET_ARRAY': function (state, newValue) {
@@ -30,6 +31,9 @@ export default new Vuex.Store({
     },
     'SET_TIPO': function (state, newValue) {
       state.tipo = newValue
+    },
+    'SET_MOVIMIENTOS': function (state, newValue) {
+      state.movimientos = newValue
     }
   },
   actions: {
@@ -50,6 +54,9 @@ export default new Vuex.Store({
     },
     settipo (store, newValue) {
       store.commit('SET_TIPO', newValue)
+    },
+    setmovimientos (store, newValue) {
+      store.commit('SET_MOVIMIENTOS', newValue)
     }
   }
 })

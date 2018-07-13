@@ -121,6 +121,14 @@ export default {
         this.$store.dispatch('settipo', newValue)
       }
     },
+    movimientos: {
+      get: function () {
+        return this.$store.state.movimientos
+      },
+      set: function (newValue) {
+        this.$store.dispatch('setmovimientos', newValue)
+      }
+    },
     tabla: function () {
       var datos = this.array
       var movimientos = []
@@ -214,6 +222,12 @@ export default {
     resto: function () {
       return this.tipo === 'Cociente Hare' || this.tipo === 'Cociente Droop' || this.tipo === 'Cociente Imperiali'
     }
+  },
+  updated () {
+    this.movimientos = this.tabla.movimientos
+  },
+  created () {
+    this.movimientos = this.tabla.movimientos
   }
 }
 </script>
