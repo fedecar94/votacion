@@ -53,15 +53,15 @@
           <td v-for="numero in tabla.votos" v-bind:key="numero.index">{{numero.votosCociente}}</td>
         </tr>
         <tr>
-          <th scope="row">Votos por cociente</th>
+          <th scope="row">Votos de residuo</th>
           <td v-for="numero in tabla.votos" v-bind:key="numero.index">{{numero.residuo}}</td>
         </tr>
         <tr>
-          <th scope="row">Votos por cociente</th>
+          <th scope="row">Escaños por residuo</th>
           <td v-for="numero in tabla.votos" v-bind:key="numero.index">{{numero.escanoResiduo}}</td>
         </tr>
         <tr>
-          <th scope="row">Total</th>
+          <th scope="row">Total de escaños</th>
           <th v-for="mov in tabla.movimientos" v-bind:key="mov.index">{{mov.cantidad}}<span v-if="promedio"><br>{{mov.escanos}}</span></th>
         </tr>
       </tbody>
